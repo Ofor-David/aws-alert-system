@@ -1,0 +1,26 @@
+{
+  "Records": [
+    {
+      "eventVersion": "1.08",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "attacker"
+      },
+      "eventTime": "2025-06-30T12:00:00Z",
+      "eventName": "CreateUser",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "192.168.1.1"
+    },
+    {
+      "eventVersion": "1.08",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "normal-user"
+      },
+      "eventTime": "2025-06-30T12:10:00Z",
+      "eventName": "ListBuckets",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "192.168.1.2"
+    }
+  ]
+}
