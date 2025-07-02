@@ -1,5 +1,5 @@
 import json
-from lambda_function import lambda_handler
+from local_func import lambda_handler
 
 # Load the sample log
 with open('sample_log.json') as f:

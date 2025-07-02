@@ -9,12 +9,12 @@ import io
 # depending on your security requirements.
 sus_events = ["CreateUser", "AttachUserPolicy","StopLogging","PutBucketPolicy"]
 sns_topic_arn = "REMOVED"
-sent = False
 
 def lambda_handler(event, context):
     s3 = boto3.client('s3')
     sns = boto3.client('sns')
     
+    #Debugging
     if 'Records' not in event:
         print("No Records found in the event. Check your trigger source.")
         return {
@@ -55,6 +55,7 @@ def lambda_handler(event, context):
 
     sus_activities = []
     sent = False
+    
     for record in log_data.get('Records', []):
 
         event_name = record.get('eventName')
@@ -66,12 +67,15 @@ def lambda_handler(event, context):
                 'user': user,
                 'eventTime': record.get('eventTime')
             })
+            
             print(f"Suspicious activities detected")
+            
             alert_message = "Suspicious activities detected:\n"
             for activity in sus_activities:
                 detail = f"User: {activity['user']}, Event: {activity['eventName']}, Time: {activity['eventTime']}"
                 print(detail)
                 alert_message = detail
+                
             if not sent:
                 print("Sending alert via SNS")
                 #send sns alert
@@ -83,7 +87,7 @@ def lambda_handler(event, context):
                 )
                 sent = True
         else:
-            print(f"not sus")
+            print(f"not suspicious")
     return { 
             'statusCode': 200,
             'body': json.dumps("scan complete")
