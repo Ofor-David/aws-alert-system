@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # Change to your working branch if needed
+    paths:
+      - 'aws_lambda_function.py'  # Only trigger on changes to this file
 
 jobs:
   deploy:
