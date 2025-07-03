@@ -1,0 +1,46 @@
+name: Deploy Lambda to AWS
+
+on:
+  push:
+    branches:
+      - main  # Change to your working branch if needed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+
+      # Step 4: Zip the Lambda function code
+      - name: Zip Lambda function
+        run: zip -r lambda_function.zip aws_lambda_function.py
+
+      # Step 5: Configure AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  # Change if you used a different region
+
+      # Step 6: Upload ZIP to S3
+      - name: Upload ZIP to S3
+        run: aws s3 cp lambda_function.zip s3://lambda-deployment-packages/lambda_function.zip
+
+      # Step 7: Update Lambda function code
+      - name: Update Lambda function code
+        run: aws lambda update-function-code --function-name cloudtrail_logger --s3-bucket lambda-deployment-packages --s3-key lambda_function.zip
+
+      # Step 8: Optional - Clean up local zip file
+      - name: Cleanup
+        run: rm lambda_function.zip
