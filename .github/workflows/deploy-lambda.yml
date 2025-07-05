@@ -39,10 +39,13 @@ jobs:
       - name: Upload ZIP to S3
         run: aws s3 cp lambda_function.zip s3://dotcorp-lambda-deployment-bucket/lambda_function.zip
 
-      # Step 7: Update Lambda function code
+      # Step 7: Update Lambda function
       - name: Update Lambda function code
         run: aws lambda update-function-code --function-name cloudtrail_logger --s3-bucket dotcorp-lambda-deployment-bucket --s3-key lambda_function.zip
      
+      - name: wait for Lambda function to be ready
+        run: wait-on --timeout 600 --interval 5000 "https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/cloudtrail_logger"
+      
       - name: Update Lambda function configuration
         run: aws lambda update-function-configuration --function-name cloudtrail_logger --environment "Variables={SNS_TOPIC_ARN=${{secrets.SNS_TOPIC_ARN}}}"
 
