@@ -5,7 +5,7 @@ on:
     branches:
       - main  # Change to your working branch if needed
     paths:
-      - 'aws_lambda_function.py'  # Only trigger on changes to this file
+      - 'lambda_function.py'  # Only trigger on changes to this file
       - '.github/workflows/deploy-lambda.yml'  # Trigger on workflow file changes
 
 jobs:
@@ -26,11 +26,11 @@ jobs:
 
       # Step 4: Zip the Lambda function code
       - name: Zip Lambda function
-        run: zip -r aws_lambda_function.zip aws_lambda_function.py
+        run: zip -r lambda_function.zip lambda_function.py
 
       # Step 5: Configure AWS credentials
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4.1.0
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -38,11 +38,11 @@ jobs:
 
       # Step 6: Upload ZIP to S3
       - name: Upload ZIP to S3
-        run: aws s3 cp aws_lambda_function.zip s3://dotcorp-lambda-deployment-bucket/aws_lambda_function.zip
+        run: aws s3 cp lambda_function.zip s3://dotcorp-lambda-deployment-bucket/lambda_function.zip
 
       # Step 7: Update Lambda function
       - name: Update Lambda function code
-        run: aws lambda update-function-code --function-name cloudtrail_logger --s3-bucket dotcorp-lambda-deployment-bucket --s3-key aws_lambda_function.zip
+        run: aws lambda update-function-code --function-name cloudtrail_logger --s3-bucket dotcorp-lambda-deployment-bucket --s3-key lambda_function.zip
      
       - name: wait for Lambda function to be ready
         run: aws lambda wait function-updated --function-name cloudtrail_logger
@@ -52,4 +52,4 @@ jobs:
 
       # Step 8: Optional - Clean up local zip file
       - name: Cleanup
-        run: rm aws_lambda_function.zip
+        run: rm lambda_function.zip
