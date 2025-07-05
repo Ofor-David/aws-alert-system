@@ -52,4 +52,4 @@ jobs:
 
       # Step 8: Optional - Clean up local zip file
       - name: Cleanup
-        run: rm lambda_function.zip
+        run: rm aws-lambda_function.zip
