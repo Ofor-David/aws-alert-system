@@ -17,7 +17,7 @@ This project provides an AWS Lambda function that monitors AWS CloudTrail logs f
 4. If any suspicious events are found, an alert is sent to the configured SNS topic.
 
 ## Setup
-1. **Enable cloudwatch Logging**
+1. **Enable cloudTrail Logging**
 2. **Deploy the Lambda function** (`aws_lambda_func.py`) to AWS Lambda.
 3. **Configure an S3 trigger** for the Lambda function on your CloudTrail log bucket.
 4. **Set the SNS topic ARN** in the Lambda environment variable or directly in the code.
