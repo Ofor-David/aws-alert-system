@@ -5,9 +5,9 @@ import io
 
 #List of suspicious events
 # This list can be extended with more events as needed
-# For example, you might want to add "DeleteUser", "CreateAccessKey", etc.
+# For example, you might want to add, "CreateAccessKey", etc.
 # depending on your security requirements.
-sus_events = ["CreateUser", "AttachUserPolicy","StopLogging","PutBucketPolicy"]
+sus_events = ["CreateUser", "DeleteUser", "AttachUserPolicy","StopLogging","PutBucketPolicy"]
 sns_topic_arn = os.getenv('SNS_TOPIC_ARN')
 def lambda_handler(event, context):
     s3 = boto3.client('s3')
