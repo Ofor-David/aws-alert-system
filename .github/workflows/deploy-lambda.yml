@@ -6,6 +6,7 @@ on:
       - main  # Change to your working branch if needed
     paths:
       - 'aws_lambda_function.py'  # Only trigger on changes to this file
+      - '.github/workflows/deploy-lambda.yml'  # Trigger on workflow file changes
 
 jobs:
   deploy:
