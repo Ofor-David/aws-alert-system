@@ -2,6 +2,7 @@ import json
 import boto3
 import gzip
 import io
+import os
 
 #List of suspicious events
 # This list can be extended with more events as needed
