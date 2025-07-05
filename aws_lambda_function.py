@@ -8,7 +8,7 @@ import io
 # For example, you might want to add "DeleteUser", "CreateAccessKey", etc.
 # depending on your security requirements.
 sus_events = ["CreateUser", "AttachUserPolicy","StopLogging","PutBucketPolicy"]
-sns_topic_arn = os.getenv('sns_topic_arn')
+sns_topic_arn = os.getenv('SNS_TOPIC_ARN')
 def lambda_handler(event, context):
     s3 = boto3.client('s3')
     sns = boto3.client('sns')
