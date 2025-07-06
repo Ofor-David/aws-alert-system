@@ -1,11 +1,3 @@
-# Upload Lambda deployment package to S3
-resource "aws_s3_object" "lambda_package" {
-  bucket = aws_s3_bucket.lambda_code_bucket.id
-  key    = "lambda_function.zip" # Name of the zip file in the bucket
-  source = "../lambda_function.zip" # Path to your zipped Lambda function in your repo
-  etag   = filemd5("../lambda_function.zip")
-}
-
 # Create the Lambda function
 resource "aws_lambda_function" "cloudtrail_log_processor" {
   function_name    = "cloudtrail-log-processor"
@@ -14,10 +6,16 @@ resource "aws_lambda_function" "cloudtrail_log_processor" {
   runtime          = "python3.12"
   timeout          = 10
 
-  s3_bucket        = aws_s3_bucket.lambda_code_bucket.id
-  s3_key           = aws_s3_object.lambda_package.key
+  s3_bucket        = var.lambda_s3_bucket_name
+  s3_key           = var.lambda_code_key
 
   depends_on = [aws_iam_role_policy_attachment.lambda_policy_attachment]
+  environment {
+  variables = {
+    SNS_TOPIC_ARN = aws_sns_topic.alert_system_topic.arn
+  }
+}
+
 }
 
 # Allow S3 to trigger Lambda

@@ -25,6 +25,12 @@ variable "lambda_s3_bucket_name" {
   description = "Name of the S3 bucket for Lambda code"
   type        = string
 }
+variable "lambda_code_key" {
+  description = "Key for the Lambda code in S3"
+  type        = string
+  default     = "lambda_function.zip" # Default name of the zip file in the bucket
+}
+
 # sns
 variable "alert_email" {
   description = "Email address for SNS alerts"

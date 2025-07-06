@@ -29,7 +29,7 @@ resource "aws_iam_policy" "lambda_policy" {
         Action   = [
           "s3:GetObject"
         ],
-        Resource = "${aws_s3_bucket.cloudtrail_logs_bucket.arn}/*"
+        Resource = "${aws_s3_bucket.cloudtrail_bucket.arn}/*"
       },
       # S3 Read Access
       {
