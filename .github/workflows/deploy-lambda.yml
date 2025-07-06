@@ -38,13 +38,11 @@ jobs:
 
       # Step 6: Upload ZIP to S3
       - name: Upload ZIP to S3
-        run: aws s3 cp lambda_function.zip s3://dotcorp-lambda-code-bucket/lambda_function.zip
-       # run: aws s3 cp lambda_function.zip s3://dotcorp-lambda-deployment-bucket/lambda_function.zip
+        run: aws s3 cp lambda_function.zip s3://${{secrets.LAMBDA_CODE_BUCKET_NAME}}/lambda_function.zip
 
       # Step 7: Update Lambda function
       - name: Update Lambda function code
-        run: aws lambda update-function-code --function-name cloudtrail_logger --s3-bucket dotcorp-lambda-code-bucket --s3-key lambda_function.zip
-      # run: aws lambda update-function-code --function-name cloudtrail_logger --s3-bucket dotcorp-lambda-deployment-bucket --s3-key lambda_function.zip
+        run: aws lambda update-function-code --function-name cloudtrail_logger --s3-bucket ${{secrets.LAMBDA_CODE_BUCKET_NAME}} --s3-key lambda_function.zip
 
       - name: wait for Lambda function to be ready
         run: aws lambda wait function-updated --function-name cloudtrail_logger

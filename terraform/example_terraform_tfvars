@@ -1,0 +1,7 @@
+aws_access_key = "your_access_key_here"
+aws_secret_key = "your_secret_key_here"
+s3_bucket_name = "a unique name for your cloudtrail s3 bucket"
+alert_email = "youremail@gmail.com"
+lambda_s3_bucket_name = "a unique name for your lambda code s3 bucket"
+# leave as is, do not modify
+lambda_code_key = "lambda_function.zip"
